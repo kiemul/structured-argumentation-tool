@@ -1,149 +1,175 @@
 # Structured Argumentation Tool
 
-A detailed tool for systematic dialectical reasoning and argument analysis. This tool facilitates the creation, critique, and synthesis of competing arguments through formal argumentation structures.
+A comprehensive tool for systematic dialectical reasoning and argument analysis. This tool helps analyze complex questions through formal argumentation structures, facilitating the creation, critique, and synthesis of competing arguments.
 
 ## Features
 
-- **Formal Argument Structure**: Break down arguments into claims, premises, and conclusions
-- **Dialectical Progression**: Track relationships between arguments for thesis-antithesis-synthesis
-- **Argument Evaluation**: Assess argument strengths and weaknesses
-- **Visual Argument Mapping**: Visualize argument relationships and structures
-- **Confidence Tracking**: Monitor confidence levels in arguments
-- **Comprehensive Analysis**: Includes objections, rebuttals, and synthesis capabilities
-
-## Core Concepts
-
-1. **Argument Types**:
-   - Thesis: Main argument or claim
-   - Antithesis: Counter-argument challenging the thesis
-   - Synthesis: Resolution combining aspects of thesis and antithesis
-   - Objection: Specific critique of an argument
-   - Rebuttal: Response to an objection
-
-2. **Argument Structure**:
-   - Claims: Central propositions being argued
-   - Premises: Supporting evidence or assumptions
-   - Conclusions: Logical consequences of accepting claims
-   - Confidence: Level of confidence in the argument (0.0-1.0)
-
-3. **Relationships**:
-   - Supports: Arguments that strengthen other arguments
-   - Contradicts: Arguments that oppose other arguments
-   - Responds to: Arguments addressing other arguments
-
-## Use Cases
-
-- Evaluating competing perspectives and claims
-- Analyzing complex ethical dilemmas
-- Assessing policy proposals with multiple stakeholders
-- Exploring scientific hypotheses and counter-arguments
-- Academic debate and philosophical analysis
+- **Argument Creation**: Create formal arguments with claims, premises, and conclusions
+- **Relationship Mapping**: Define relationships between arguments (support, contradict, respond)
+- **Dialectical Engine**: Automatic generation of syntheses and counter-arguments
+- **Argument Evaluation**: Smart scoring of argument quality and logical coherence
+- **Visualization**: Multiple visualization formats (ASCII, Mermaid, DOT)
+- **Reporting**: Comprehensive analysis reports with metrics and recommendations
+- **Import/Export**: Save and load argument graphs for later analysis
 
 ## Installation
 
 ```bash
-npm install structured-argumentation-tool
+git clone https://github.com/kiemul/structured-argumentation-tool.git
+cd structured-argumentation-tool
+npm install
 ```
 
-## Usage Example
+## Quick Start
 
 ```javascript
-const { StructuredArgumentation } = require('structured-argumentation-tool');
+const { StructuredArgumentationTool } = require('./src/index');
 
-const tool = new StructuredArgumentation();
+// Create a new instance
+const tool = new StructuredArgumentationTool();
 
 // Create a thesis argument
-tool.addArgument({
-  argumentId: "thesis-1",
-  claim: "Renewable energy is the best solution for climate change",
-  premises: [
-    "Renewable energy sources are sustainable",
-    "They produce minimal greenhouse gas emissions",
-    "Technology has made them increasingly cost-effective"
-  ],
-  conclusion: "Countries should prioritize renewable energy investment",
-  argumentType: "thesis",
-  confidence: 0.8
-});
+const thesis = tool.createArgument(
+  "All employees should have flexible working hours",
+  ["Flexibility improves work-life balance", "Happier employees are more productive"],
+  "Therefore, flexible working hours benefit both employees and employers",
+  "thesis",
+  0.85
+);
 
-// Add an antithesis
-tool.addArgument({
-  argumentId: "antithesis-1",
-  claim: "Nuclear energy offers better immediate solutions",
-  premises: [
-    "Nuclear has higher energy density than renewables",
-    "Nuclear can provide consistent baseload power",
-    "Modern reactors are significantly safer"
-  ],
-  conclusion: "Nuclear should be the priority for immediate climate action",
-  argumentType: "antithesis",
-  respondsTo: "thesis-1",
-  contradicts: ["thesis-1"],
-  confidence: 0.7
-});
+// Generate a visualization
+console.log(tool.visualize('ascii'));
 
-// Get argument visualization
-const visualization = tool.visualizeArguments();
+// Generate a comprehensive report
+const report = tool.generateReport('markdown');
+console.log(report);
 ```
 
-## Architecture
+## Core Concepts
+
+### Argument Types
+
+1. **Thesis**: Initial proposition or claim
+2. **Antithesis**: Counter-argument opposing a thesis
+3. **Synthesis**: Argument that reconciles conflicting perspectives
+4. **Objection**: Challenge to specific premises or conclusions
+5. **Rebuttal**: Response defending against objections
+
+### Relationship Types
+
+- **Support**: One argument strengthens another
+- **Contradict**: One argument opposes another
+- **Respond**: Direct response to another argument
+
+## Examples
+
+### Basic Usage
+
+```javascript
+const tool = new StructuredArgumentationTool();
+
+// Create arguments
+const arg1 = tool.createArgument("Claim", ["Premise 1"], "Conclusion", "thesis", 0.8);
+const arg2 = tool.createArgument("Counter-claim", ["Premise 2"], "Counter-conclusion", "antithesis", 0.7);
+
+// Add relationship
+tool.addRelationship(arg2.id, arg1.id, 'contradict');
+
+// Visualize
+console.log(tool.visualize());
+```
+
+### Advanced Example
+
+See `examples/advanced-example.js` for a complex carbon policy debate analysis.
+
+## Project Structure
 
 ```
 structured-argumentation-tool/
 ├── src/
-│   ├── core/
-│   │   ├── argument.js          # Core argument data structure
-│   │   ├── argumentGraph.js     # Graph representation
-│   │   └── dialecticalEngine.js # Logic engine
-│   ├── analysis/
-│   │   ├── evaluator.js         # Argument evaluation
-│   │   └── synthesizer.js       # Synthesis generation
-│   └── visualization/
-│       ├── graphVisualizer.js   # Argument network visualization
-│       └── reportGenerator.js   # Generate argument reports
-├── tests/
-├── docs/
-└── examples/
+│   ├── core/                # Core argument and graph structures
+│   ├── analysis/            # Evaluation and synthesis modules
+│   ├── visualization/       # Visualization and reporting tools
+│   └── index.js            # Main tool interface
+├── examples/                # Usage examples
+├── tests/                   # Unit tests
+└── package.json
 ```
 
 ## API Reference
 
-### Main Methods
+### StructuredArgumentationTool
 
-- `addArgument(argumentData)`: Add a new argument to the system
-- `evaluateArgument(argumentId)`: Evaluate strengths and weaknesses
-- `findSynthesis(argumentIds)`: Find synthesis between arguments
-- `visualizeArguments()`: Generate visual representation
-- `generateReport()`: Create comprehensive argument analysis
+#### Methods
 
-### Argument Structure
+- `createArgument(claim, premises, conclusion, type, confidence)`: Create a new argument
+- `addRelationship(fromId, toId, type)`: Add relationship between arguments
+- `suggestNextArguments()`: Get AI-suggested follow-up arguments
+- `synthesize(argumentIds)`: Generate synthesis from multiple arguments
+- `visualize(format)`: Generate visual representation
+- `generateReport(format)`: Generate analysis report
+- `export()`: Export argument data
+- `import(data)`: Import argument data
 
-```typescript
-interface Argument {
-  argumentId: string;
-  claim: string;
-  premises: string[];
-  conclusion: string;
-  argumentType: 'thesis' | 'antithesis' | 'synthesis' | 'objection' | 'rebuttal';
-  confidence: number;
-  respondsTo?: string;
-  supports?: string[];
-  contradicts?: string[];
-  strengths?: string[];
-  weaknesses?: string[];
-}
+### Visualization Formats
+
+- `ascii`: Text-based visualization
+- `mermaid`: Mermaid.js graph syntax
+- `dot`: GraphViz DOT format
+- `html`: Interactive HTML visualization
+
+### Report Formats
+
+- `markdown`: Comprehensive markdown report
+- `html`: HTML report with embedded visualizations
+- `json`: Raw data export
+- `text`: Plain text summary
+
+## Testing
+
+```bash
+npm test
+```
+
+## Examples
+
+Run the basic example:
+
+```bash
+npm run example
+```
+
+Run the advanced example:
+
+```bash
+node examples/advanced-example.js
 ```
 
 ## Contributing
 
-Contributions are welcome! Please read our [Contributing Guide](CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
+1. Fork the repository
+2. Create your feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a Pull Request
+
+## Use Cases
+
+- **Policy Analysis**: Analyze competing policy proposals
+- **Ethical Dilemmas**: Explore different moral perspectives
+- **Scientific Debates**: Map out competing hypotheses and evidence
+- **Educational Tools**: Teaching critical thinking and logic
+- **Decision Making**: Structure complex decision processes
 
 ## License
 
-MIT License - see [LICENSE](LICENSE) file for details.
+MIT
+
+## Support
+
+For support, please create an issue in the GitHub repository.
 
 ## Acknowledgments
 
-- Inspired by formal argumentation theory and dialectical reasoning
-- Built for academic, professional, and educational applications
-
+This tool facilitates structured dialectical reasoning inspired by classical argumentation theory and modern critical thinking frameworks.
