@@ -1,0 +1,33 @@
+{
+  "name": "structured-argumentation-tool",
+  "version": "1.0.0",
+  "description": "A tool for systematic dialectical reasoning and argument analysis",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "jest",
+    "example": "node examples/basic-example.js"
+  },
+  "keywords": [
+    "argumentation",
+    "dialectic",
+    "reasoning", 
+    "debate",
+    "logic",
+    "synthesis",
+    "analysis"
+  ],
+  "author": "kiemul",
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^29.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kiemul/structured-argumentation-tool.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kiemul/structured-argumentation-tool/issues"
+  },
+  "homepage": "https://github.com/kiemul/structured-argumentation-tool#readme"
+}
